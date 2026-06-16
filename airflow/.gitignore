@@ -1,0 +1,10 @@
+# 不提交运行时生成的文件
+logs/
+plugins/
+__pycache__/
+*.pyc
+*.pyo
+
+# 不提交包含真实凭证的 .env（保留 .env 示例）
+# 如果 .env 里有真实 GCP 凭证，取消下面注释
+# .env

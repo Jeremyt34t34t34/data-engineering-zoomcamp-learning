@@ -1,0 +1,35 @@
+# Credentials and local environment
+.env
+*.env
+*.json
+*.pem
+*.key
+*.p12
+*.credentials
+
+# Terraform local state
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+*.tfvars
+
+# Python and dbt local output
+.venv/
+venv/
+__pycache__/
+*.pyc
+target/
+dbt_packages/
+logs/
+*.log
+
+# Data files that should not be committed unless intentionally sampled
+*.csv
+*.csv.gz
+*.parquet
+*.duckdb
+*.db
+
+# macOS
+.DS_Store
