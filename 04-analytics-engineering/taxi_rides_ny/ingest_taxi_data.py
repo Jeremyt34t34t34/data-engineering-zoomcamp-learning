@@ -51,7 +51,9 @@ def download_and_convert(taxi_type: str, year: int, month: int) -> None:
 def refresh_raw_tables() -> None:
     con = duckdb.connect("taxi_rides_ny.duckdb")
     con.execute("CREATE SCHEMA IF NOT EXISTS prod")
-    for taxi_type in ["yellow", "green"]:
+    for taxi_type in ["yellow", "green", "fhv"]:
+        if not list((Path("data") / taxi_type).glob("*.parquet")):
+            continue
         con.execute(
             f"""
             CREATE OR REPLACE TABLE prod.{taxi_type}_tripdata AS
@@ -71,7 +73,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--sample",
         action="store_true",
-        help="Only load 2019-01 for yellow and green taxi data.",
+        help="Only load 2019-01 for selected taxi data.",
+    )
+    parser.add_argument(
+        "--taxi-types",
+        nargs="+",
+        default=["yellow", "green"],
+        choices=["yellow", "green", "fhv"],
+        help="Taxi data types to load.",
     )
     return parser.parse_args()
 
@@ -86,13 +95,13 @@ def main() -> None:
         years = range(args.start_year, args.end_year + 1)
         months = range(args.start_month, args.end_month + 1)
 
-    for taxi_type in ["yellow", "green"]:
+    for taxi_type in args.taxi_types:
         for year in years:
             for month in months:
                 download_and_convert(taxi_type, year, month)
 
     refresh_raw_tables()
-    print("Raw DuckDB tables ready: prod.yellow_tripdata, prod.green_tripdata")
+    print("Raw DuckDB tables ready")
 
 
 if __name__ == "__main__":
