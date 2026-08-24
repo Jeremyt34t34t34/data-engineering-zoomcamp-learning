@@ -67,6 +67,21 @@ Register for Bruin Cloud, connect your GitHub repository, set up data warehouse 
 - [Notes](notes/05-bruin-cloud.md)
 
 
+### 5.6 - Databricks Primer (Optional)
+
+Databricks is not part of the official Zoomcamp module, but it is a mainstream lakehouse platform worth understanding alongside Bruin. This optional note maps Databricks concepts to the tools used in the course: Spark, BigQuery, dbt, orchestration, governance, and medallion architecture.
+
+- [Notes](notes/07-databricks-primer.md)
+
+
+### 5.7 - Databricks Bridge Tutorial (Optional)
+
+Use this as a more mainstream replacement path for the Bruin Cloud lesson. It explains Databricks as a data platform and connects the concepts directly to Module 6 Spark and Module 7 Streaming.
+
+- [Notes](notes/08-databricks-bridge-tutorial.md)
+- [Hands-on mini project](databricks-lakehouse/)
+
+
 ## Bruin Core Concepts
 
 Short videos covering the fundamental concepts of Bruin: projects, pipelines, assets, variables, and commands.

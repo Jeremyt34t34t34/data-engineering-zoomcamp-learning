@@ -26,7 +26,11 @@ renamed as (
         cast(mta_tax as numeric) as mta_tax,
         cast(tip_amount as numeric) as tip_amount,
         cast(tolls_amount as numeric) as tolls_amount,
+        {% if target.type == 'bigquery' %}
+        cast(0 as numeric) as ehail_fee,
+        {% else %}
         cast(ehail_fee as numeric) as ehail_fee,
+        {% endif %}
         cast(improvement_surcharge as numeric) as improvement_surcharge,
         cast(total_amount as numeric) as total_amount,
         {{ safe_cast('payment_type', 'integer') }} as payment_type

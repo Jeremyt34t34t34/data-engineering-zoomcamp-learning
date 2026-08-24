@@ -1,0 +1,53 @@
+bundle:
+  name: de_zoomcamp_databricks_lakehouse
+
+variables:
+  catalog:
+    default: hive_metastore
+  source_base:
+    default: dbfs:/FileStore/de_zoomcamp/taxi
+
+resources:
+  jobs:
+    nyc_taxi_lakehouse:
+      name: de-zoomcamp-nyc-taxi-lakehouse
+      tasks:
+        - task_key: setup
+          notebook_task:
+            notebook_path: ./notebooks/00_setup.py
+            base_parameters:
+              catalog: ${var.catalog}
+              source_base: ${var.source_base}
+
+        - task_key: load_bronze
+          depends_on:
+            - task_key: setup
+          notebook_task:
+            notebook_path: ./notebooks/01_load_bronze.py
+            base_parameters:
+              catalog: ${var.catalog}
+              source_base: ${var.source_base}
+
+        - task_key: build_silver
+          depends_on:
+            - task_key: load_bronze
+          notebook_task:
+            notebook_path: ./notebooks/02_build_silver.py
+            base_parameters:
+              catalog: ${var.catalog}
+
+        - task_key: build_gold
+          depends_on:
+            - task_key: build_silver
+          notebook_task:
+            notebook_path: ./notebooks/03_build_gold.py
+            base_parameters:
+              catalog: ${var.catalog}
+
+        - task_key: quality_checks
+          depends_on:
+            - task_key: build_gold
+          notebook_task:
+            notebook_path: ./notebooks/04_quality_checks.py
+            base_parameters:
+              catalog: ${var.catalog}
